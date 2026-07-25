@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProductList, getProductById } from "../services/product.service";
+import { getProductById, getProductList } from "../services/product.service";
 import { Product } from "../types";
 
 export function useProductList() {

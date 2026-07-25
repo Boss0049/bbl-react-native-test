@@ -2,8 +2,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 
-import ProductListScreen from "./screens/ProductListScreen";
-import ProductDetailScreen from "./screens/ProductDetailScreen";
+import ProductListScreen from "@/screens/ProductListScreen";
+import ProductDetailScreen from "@/screens/ProductDetailScreen";
 
 export type RootStackParamList = {
   ProductList: undefined;
