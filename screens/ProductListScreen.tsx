@@ -1,6 +1,10 @@
+import { RootStackParamList } from "@/App";
+import Loading from "@/libs/components/Loading";
+import ProductCard from "@/libs/components/ProductCard";
+import { useProductList } from "@/libs/hooks/useProduct";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   FlatList,
   Pressable,
@@ -10,10 +14,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { RootStackParamList } from "../App";
-import Loading from "../libs/components/Loading";
-import ProductCard from "../libs/components/ProductCard";
-import { useProductList } from "../libs/hooks/useProduct";
 
 function ProductListScreen() {
   const navigation =

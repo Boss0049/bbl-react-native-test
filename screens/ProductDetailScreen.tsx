@@ -1,3 +1,6 @@
+import { RootStackParamList } from "@/App";
+import Loading from "@/libs/components/Loading";
+import { useProduct } from "@/libs/hooks/useProduct";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import {
   Image,
@@ -7,9 +10,6 @@ import {
   Text,
   View,
 } from "react-native";
-import { RootStackParamList } from "../App";
-import Loading from "../libs/components/Loading";
-import { useProduct } from "../libs/hooks/useProduct";
 
 function ProductDetailScreen() {
   const { params } = useRoute<RouteProp<RootStackParamList, "ProductDetail">>();
