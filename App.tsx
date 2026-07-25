@@ -1,13 +1,21 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NavigationContainer } from "@react-navigation/native";
 
-import ProductListScreen from "@/screens/ProductListScreen";
+import {
+  FAVORITES,
+  PRODUCT_DETAIL,
+  PRODUCT_LIST,
+} from "@/libs/constants/screen";
+import FavoritesScreen from "@/screens/FavoritesScreen";
 import ProductDetailScreen from "@/screens/ProductDetailScreen";
+import ProductListScreen from "@/screens/ProductListScreen";
+import { Pressable, Text } from "react-native";
 
 export type RootStackParamList = {
-  ProductList: undefined;
-  ProductDetail: { id: string };
+  [PRODUCT_LIST]: undefined;
+  [PRODUCT_DETAIL]: { id: string };
+  [FAVORITES]: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,14 +27,26 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="ProductList"
+            name={PRODUCT_LIST}
             component={ProductListScreen}
-            options={{ title: "Products" }}
+            options={({ navigation }) => ({
+              title: "Products",
+              headerRight: () => (
+                <Pressable onPress={() => navigation.navigate(FAVORITES)}>
+                  <Text>★ Favorites</Text>
+                </Pressable>
+              ),
+            })}
           />
           <Stack.Screen
-            name="ProductDetail"
+            name={PRODUCT_DETAIL}
             component={ProductDetailScreen}
             options={{ title: "Products Detail" }}
+          />
+          <Stack.Screen
+            name={FAVORITES}
+            component={FavoritesScreen}
+            options={{ title: "Favorites" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

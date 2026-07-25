@@ -1,13 +1,16 @@
 import { RootStackParamList } from "@/App";
+import ErrorAlert from "@/libs/components/ErrorAlert";
 import Loading from "@/libs/components/Loading";
 import ProductCard from "@/libs/components/ProductCard";
+import { PRODUCT_DETAIL } from "@/libs/constants/screen";
 import { useProductList } from "@/libs/hooks/useProduct";
+import { useFavoritesStore } from "@/libs/stores/useFavoritesStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FlatList,
-  Pressable,
   RefreshControl,
   StyleSheet,
   Text,
@@ -23,19 +26,18 @@ function ProductListScreen() {
   const { data, isPending, isError, error, refetch, isRefetching } =
     useProductList();
 
+  const loadFavorites = useFavoritesStore((state) => state.loadFavorites);
+
+  useEffect(() => {
+    loadFavorites();
+  }, []);
+
   if (isPending) {
     return <Loading />;
   }
 
   if (isError) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.errorText}>{error?.message}</Text>
-        <Pressable style={styles.retryButton} onPress={() => refetch()}>
-          <Text style={styles.retryButtonText}>Retry</Text>
-        </Pressable>
-      </View>
-    );
+    return <ErrorAlert error={error} refetch={() => refetch()} />;
   }
 
   if (data.length === 0) {
@@ -76,7 +78,7 @@ function ProductListScreen() {
             <ProductCard
               product={item}
               onPress={() =>
-                navigation.navigate("ProductDetail", { id: String(item.id) })
+                navigation.navigate(PRODUCT_DETAIL, { id: String(item.id) })
               }
             />
           )}
@@ -106,35 +108,8 @@ const styles = StyleSheet.create({
     gap: 12,
     padding: 16,
   },
-  errorText: {
-    color: "#ff0000",
-    textAlign: "center",
-  },
-  retryButton: {
-    backgroundColor: "#0000ff",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  retryButtonText: {
-    color: "#fff",
-    fontWeight: "600",
-  },
   list: {
     padding: 12,
-  },
-  row: {
-    flexDirection: "row",
-    gap: 12,
-    padding: 12,
-    marginBottom: 8,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 14,
-    fontWeight: "500",
   },
 });
 

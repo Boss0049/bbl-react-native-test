@@ -7,6 +7,6 @@ export async function getProductList(): Promise<Product[]> {
 }
 
 export async function getProductById(id: string): Promise<Product> {
-  const response = await axiosInstance.get<Product>(`/product/${id}`);
+  const response = await axiosInstance.get<Product>(`/products/${id}`);
   return response.data;
 }

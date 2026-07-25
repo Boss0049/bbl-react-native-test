@@ -1,15 +1,10 @@
 import { RootStackParamList } from "@/App";
+import ErrorAlert from "@/libs/components/ErrorAlert";
+import FavoriteButton from "@/libs/components/FavoriteButton";
 import Loading from "@/libs/components/Loading";
 import { useProduct } from "@/libs/hooks/useProduct";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 function ProductDetailScreen() {
   const { params } = useRoute<RouteProp<RootStackParamList, "ProductDetail">>();
@@ -20,14 +15,7 @@ function ProductDetailScreen() {
   }
 
   if (isError) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.errorText}>{error.message}</Text>
-        <Pressable style={styles.retryButton} onPress={() => refetch()}>
-          <Text style={styles.retryButtonText}>Retry</Text>
-        </Pressable>
-      </View>
-    );
+    return <ErrorAlert error={error} refetch={() => refetch()} />;
   }
 
   return (
@@ -44,6 +32,7 @@ function ProductDetailScreen() {
         ★ {data.rating.rate} ({data.rating.count} reviews)
       </Text>
       <Text style={styles.description}>{data.description}</Text>
+      <FavoriteButton productId={Number(params.id)} isShowText />
     </ScrollView>
   );
 }
@@ -55,20 +44,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 12,
     padding: 16,
-  },
-  errorText: {
-    color: "#ff0000",
-    textAlign: "center",
-  },
-  retryButton: {
-    backgroundColor: "#0000ff",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  retryButtonText: {
-    color: "#fff",
-    fontWeight: "600",
   },
   content: {
     padding: 16,
